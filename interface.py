@@ -14,16 +14,22 @@ parent = dict()
 rank = dict()
 arquivos = []
 grafo = 0
-arvore=0
-custo=0
+arvore = 0
+custo = 0
 selectedBox=''
+
+
 class Ui_MainWindow(object):
+    
     def initialize(self):
         # Leitura e exibição do diretório de entrada
         caminhos = [os.path.join("entrada/", nome) for nome in os.listdir("entrada/")]
         arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
+        arquivos.append(" - - - - - - - - - - - - - - - - - - - - - ")
+        arquivos = sorted(arquivos)
         #opcao = raw_input("\nInsira o número equivalente à opção do arquivo que deseja determinar como entrada: ")       
         return arquivos
+    
     def gerargrafo(sef,arquivo_selecionado):
         # Inicia a leitura do grafo
         global grafo
@@ -68,7 +74,7 @@ class Ui_MainWindow(object):
             for vertice in v_add:
                 vizinhos = list(grafo_residual.neighbors(vertice))
                 for neighbor in range(grafo_residual.degree(vertice)):
-                    if grafo_residual[vertice][vizinhos[neighbor]]['weight'] < menor_custo:
+                    if grafo_residual[vertice][vizinhos[neighbor]]['weight'] < menor_custo and (not arvore.has_node(vizinhos[neighbor])):
                         menor_custo = grafo_residual[vertice][vizinhos[neighbor]]['weight']
                         menor_aresta = ([vertice, vizinhos[neighbor]])
             arestas_arvore.append([menor_aresta[0], menor_aresta[1]])
@@ -264,12 +270,12 @@ class Ui_MainWindow(object):
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
         self.line_3 = QtWidgets.QFrame(self.centralwidget)
-        self.line_3.setGeometry(QtCore.QRect(-20, 530, 851, 20))
+        self.line_3.setGeometry(QtCore.QRect(-20, 560, 851, 20))
         self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_3.setObjectName("line_3")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(170, 550, 491, 17))
+        self.label_3.setGeometry(QtCore.QRect(170, 576, 491, 17))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label_3.setFont(font)
@@ -295,10 +301,9 @@ class Ui_MainWindow(object):
         self.pushButton_2.setIcon(icon)
         self.pushButton_2.setIconSize(QtCore.QSize(100, 100))
         self.pushButton_2.setObjectName("pushButton_2")
-        
 
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(500, 290, 111, 81))
+        self.pushButton_3.setGeometry(QtCore.QRect(570, 290, 111, 81))
         self.pushButton_3.setText("")
         
         icon1 = QtGui.QIcon()
@@ -311,26 +316,27 @@ class Ui_MainWindow(object):
         #CALL THE FUNCTION WHO'S CALCULATE KRUSKAL AGM
 
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(350, 290, 111, 81))
+        self.pushButton_4.setGeometry(QtCore.QRect(350, 290, 104, 81))
         self.pushButton_4.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("heuristica.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("heuristica_dark.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_4.setIcon(icon2)
-        self.pushButton_4.setIconSize(QtCore.QSize(100, 100))
+        self.pushButton_4.setIconSize(QtCore.QSize(111, 81))
+        self.pushButton_4.setEnabled(False)
         self.pushButton_4.setObjectName("pushButton_4")
         #CALL THE FUNCTION WHO'S CALCULATE FINAL AGMI
         self.pushButton_4.clicked.connect(self.heuristica)
         #CALL THE FUNCTION WHO'S CALCULATE FINAL AGMI
         #CALL THE FUNCTION WHO'S RESET ALL THE GRAPH AND TREES TO GENERATE NEW TREES
         self.pushButton_reset = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_reset.setGeometry(QtCore.QRect(620, 290, 111, 81))
-        self.pushButton_reset.setText("Reset Graph")
+        self.pushButton_reset.setGeometry(QtCore.QRect(365, 500, 77, 29))
+        self.pushButton_reset.setText("Resetar AGMI")
         self.pushButton_reset.clicked.connect(self.resetGraph)
         #CALL THE FUNCTION WHO'S RESET ALL THE GRAPH AND TREES TO GENERATE NEW TREES
 
 
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
-        self.label_6.setGeometry(QtCore.QRect(280, 210, 261, 21))
+        self.label_6.setGeometry(QtCore.QRect(280, 230, 261, 21))
         font = QtGui.QFont()
         font.setFamily("Ubuntu Condensed")
         font.setPointSize(13)
@@ -340,10 +346,10 @@ class Ui_MainWindow(object):
         self.label_6.setWordWrap(False)
         self.label_6.setObjectName("label_6")
         self.label_7 = QtWidgets.QLabel(self.centralwidget)
-        self.label_7.setGeometry(QtCore.QRect(280, 450, 261, 21))
+        self.label_7.setGeometry(QtCore.QRect(275, 470, 261, 21))
         font = QtGui.QFont()
-        font.setFamily("Ubuntu Condensed")
-        font.setPointSize(13)
+        font.setFamily("Uroob")
+        font.setPointSize(17)
         self.label_7.setFont(font)
         self.label_7.setTextFormat(QtCore.Qt.AutoText)
         self.label_7.setScaledContents(False)
@@ -351,23 +357,31 @@ class Ui_MainWindow(object):
         self.label_7.setObjectName("label_7")
         
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        #self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        #self.statusbar.setObjectName("statusbar")
+        #MainWindow.setStatusBar(self.statusbar)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+    
     def click_arquivos(self):
         self.initialize()
+
     def onActivated(self,text):
         global grafo,selectedBox
         selectedBox=text
         grafo = self.gerargrafo(selectedBox)
+
     def primButton(self):
         global grafo
         global custo
         global arvore
         custo, arvore, grafo = self.prim()
-        self.label_7.setText("O custo da AGMI é:"+str(custo))
+        icon2 = QtGui.QIcon()
+        self.pushButton_4.setEnabled(True)
+        icon2.addPixmap(QtGui.QPixmap("heuristica.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_4.setIcon(icon2)
+        self.label_7.setGeometry(QtCore.QRect(325, 450, 261, 21))
+        self.label_7.setText("O custo da AGMI é: "+str(custo))
         pos = nx.get_node_attributes(grafo, 'pos')
         nx.draw(arvore, pos, with_labels=True)
         plt.show()
@@ -378,16 +392,31 @@ class Ui_MainWindow(object):
         global arvore
         custo, mst= self.kruskal()
         arvore,mst,custo= self.return_edges_Kruskal(mst)
-        self.label_7.setText("O custo da AGMI é:"+str(custo))
+        self.pushButton_4.setEnabled(True)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("heuristica.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_4.setIcon(icon2)
+        self.label_7.setGeometry(QtCore.QRect(325, 450, 261, 21))
+        self.label_7.setText("O custo da AGMI é: "+str(custo))
         pos = nx.get_node_attributes(grafo, 'pos')
         nx.draw(arvore, pos, with_labels=True)
         plt.show()
+
     def heuristica(self):
         global grafo,selectedBox
         global arvore
         global custo
         arvore, custo = self.refinement_heuristic()
-        self.label_7.setText("O custo da AGMI refinada é:"+str(custo))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("prim_dark.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_2.setEnabled(False)
+        self.pushButton_3.setEnabled(False)
+        self.pushButton_2.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("kruskal_dark.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_3.setIcon(icon1)
+        self.label_7.setGeometry(QtCore.QRect(296, 450, 261, 21))
+        self.label_7.setText("O custo da AGMI refinada é: "+str(custo))
         pos = nx.get_node_attributes(grafo, 'pos')
         nx.draw(arvore, pos, with_labels=True)
         plt.show()
@@ -395,9 +424,16 @@ class Ui_MainWindow(object):
     def resetGraph(self):
         global grafo,selectedBox
         grafo = self.gerargrafo(selectedBox)
-        self.label_7.setText("Grafo resetado: "+selectedBox)
-
-        
+        self.pushButton_2.setEnabled(True)
+        self.pushButton_3.setEnabled(True)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("prim.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_2.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("kruskal.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_3.setIcon(icon1)
+        self.label_7.setGeometry(QtCore.QRect(348, 450, 261, 21))
+        self.label_7.setText("Grafo resetado")
         
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
