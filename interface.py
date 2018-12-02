@@ -370,6 +370,18 @@ class Ui_MainWindow(object):
         global grafo,selectedBox
         selectedBox=text
         grafo = self.gerargrafo(selectedBox)
+        self.pushButton_2.setEnabled(True)
+        self.pushButton_3.setEnabled(True)
+        self.pushButton_4.setEnabled(False)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("prim.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_2.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("kruskal.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_3.setIcon(icon1)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("heuristica_dark.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_4.setIcon(icon2)
 
     def primButton(self):
         global grafo
@@ -426,12 +438,16 @@ class Ui_MainWindow(object):
         grafo = self.gerargrafo(selectedBox)
         self.pushButton_2.setEnabled(True)
         self.pushButton_3.setEnabled(True)
+        self.pushButton_4.setEnabled(False)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("prim.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_2.setIcon(icon)
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("kruskal.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_3.setIcon(icon1)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("heuristica_dark.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_4.setIcon(icon2)
         self.label_7.setGeometry(QtCore.QRect(348, 450, 261, 21))
         self.label_7.setText("Grafo resetado")
         
